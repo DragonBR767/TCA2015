@@ -1,22 +1,68 @@
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
-int main (void){
+//Definição de Estruturas JOOJ
+typedef struct {
+	char login[50];
+	char senha[50];
+	char nome[150];
+	int tipo;
+} user; // em inglheiis purque noiz é FODA
+
+void registroUser (){
 	
-	//Definição de Estruturas JOOJ
-	typedef struct {
-		char login[50];
-		char senha[50];
-		char nome[150];
-		int tipo;
-		int id;
-	} usuario;
+	FILE *fp;
+	user conta;
 	
-	//Declaração de Variaveis Bronzes
-	int a=0;//Saporra é pro Menu de Opções
-	FILE fp;
-	usuario conta;
+	printf("Cadastre-se\n");
+	printf("\nSeu nome completo: ");
+	fflush(stdin);
+	gets(conta.nome);
+	printf("\nSeu Login: ");
+	fflush(stdin);
+	gets(conta.login);
+	printf("\nSua Senha: ");
+	fflush(stdin);
+	gets(conta.senha);
+	conta.tipo = 0;	
 	
+	fp = fopen ("usuario.bin", "a+");
+	fp = fwrite (&conta, sizeof(user), 1, fp);
+	fclose(fp);
+	
+	printf("Voce registrou com sucesso uma conta de Jogador!");
+}
+
+void registroAdmin (){
+	
+	FILE *fp;
+	user conta;
+	
+	printf("Cadastre-se\n");
+	printf("\nSeu nome completo: ");
+	fflush(stdin);
+	gets(conta.nome);
+	printf("\nSeu Login: ");
+	fflush(stdin);
+	gets(conta.login);
+	printf("\nSua Senha: ");
+	fflush(stdin);
+	gets(conta.senha);
+	conta.tipo = 1;
+	
+	fp = fopen ("usuario.bin", "a+");
+	fp = fwrite (&conta, sizeof(user), 1, fp);
+	fclose(fp);
+	
+	printf("Voce registrou com sucesso uma conta de Administrador!");
+}
+
+void menuPrincipal (){
+	int a=0;
+	FILE *fp;
+	user conta;
+	int flag;
 	
 	printf("SEJA BEM-VINDO JOGADOR\n");
 	printf("\nOque deseja fazer?\n");
@@ -24,19 +70,29 @@ int main (void){
 	printf("2 - Fazer Login\n");
 	printf("9 - Sair!\n");
 	
-	while(a!=9){
-	fflush(stdin);
-	scanf("%d",a);
+	do{
+		fflush(stdin);
+		scanf("%d", &a);
 	
-	switch (a) {
-		
-		default: printf("Opção Invalida!!!");
-		
-		case (1):
-			fp = fopen(usuarios.bin, a+);
-			if (fp != NULL){
-				
-			}
-	}
-	}
+		switch (a) {
+			
+			case (1):
+				fp = fopen("usuarios.bin", "r");
+				if (fp == NULL){
+					flag = 0;}
+				else{
+					flag = 1; }
+				 fclose(fp);
+				if (flag == 0){
+					registroAdmin(conta);}
+				else{
+					registroUser(conta); }
+			
+		    default: printf("Opção Invalida!!!");
+		}
+	}while(a!=9);
+}
+
+int main (){
+	menuPrincipal();
 }
